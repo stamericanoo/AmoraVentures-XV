@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amora Ventures | Proyek Akhir Kimia Industri 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Inter:wght@300;400;600;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --navy: #020617;
+            --navy-panel: #0f172a;
+            --maroon: #7f1d1d;
+            --maroon-accent: #dc2626;
+            --white: #f8fafc;
+            --gold: #fbbf24;
+            --slate: #64748b;
+        }
+
+        * { scroll-behavior: smooth; box-sizing: border-box; }
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--navy); color: var(--white); overflow-x: hidden; }
+
+        /* SIDE NAVIGATION DOTS */
+        .side-nav { position: fixed; right: 30px; top: 50%; transform: translateY(-50%); z-index: 2000; display: flex; flex-direction: column; gap: 15px; background: rgba(15, 23, 42, 0.6); padding: 20px 10px; border-radius: 50px; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.1); }
+        .dot { width: 12px; height: 12px; background: var(--slate); border-radius: 50%; transition: 0.4s; cursor: pointer; border: 2px solid transparent; }
+        .dot.active { background: var(--maroon-accent); transform: scale(1.5); box-shadow: 0 0 15px var(--maroon-accent); border-color: white; }
+
+        /* HERO SECTION */
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: linear-gradient(rgba(2, 6, 23, 0.9), rgba(127, 29, 29, 0.4)), url('https://images.unsplash.com/photo-1541976590-713941681591?q=80&w=2070&auto=format&fit=crop'); background-size: cover; background-attachment: fixed; text-align: center; }
+        .hero h1 { font-family: 'Montserrat'; font-size: 6rem; font-weight: 900; margin: 0; letter-spacing: -2px; line-height: 0.9; }
+        .hero h1 span { color: var(--maroon-accent); text-shadow: 0 0 30px rgba(220,38,38,0.4); }
+        .hero p { font-size: 1.2rem; letter-spacing: 10px; text-transform: uppercase; margin-top: 20px; color: var(--gold); }
+
+        /* TOP DASHBOARD (AZZAM STYLE) */
+        .header-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 25px 10%; background: var(--navy-panel); border-bottom: 5px solid var(--maroon-accent); position: sticky; top: 0; z-index: 1000; }
+        .stat-item h4 { font-size: 0.75rem; color: var(--slate); margin: 0; text-transform: uppercase; letter-spacing: 1px; }
+        .stat-item .val { font-size: 2rem; font-weight: 900; color: var(--white); }
+
+        /* SECTION STYLING */
+        section { padding: 120px 12%; border-bottom: 1px solid rgba(255,255,255,0.05); min-height: 80vh; }
+        .section-header { margin-bottom: 60px; }
+        .section-header h2 { font-family: 'Montserrat'; font-size: 3.5rem; font-weight: 900; margin: 0; }
+        .section-header div { width: 150px; height: 8px; background: var(--maroon-accent); margin-top: 15px; border-radius: 4px; }
+
+        /* CONTENT CARDS */
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .glass-card { background: var(--navy-panel); border: 1px solid rgba(255,255,255,0.1); padding: 40px; border-radius: 20px; transition: 0.4s; position: relative; overflow: hidden; }
+        .glass-card:hover { border-color: var(--maroon-accent); transform: translateY(-10px); }
+        
+        /* DATA TABLES */
+        .modern-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.9rem; }
+        .modern-table th { text-align: left; padding: 15px; color: var(--gold); border-bottom: 2px solid var(--maroon); }
+        .modern-table td { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #cbd5e1; }
+
+        /* TIER CONTROLS ALA AZZAM */
+        .tier-control { text-align: center; background: #020617; padding: 60px 0; border-bottom: 1px solid #1e293b; }
+        .tier-btn { padding: 15px 35px; border-radius: 50px; border: none; cursor: pointer; margin: 10px; font-weight: 800; text-transform: uppercase; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .btn-basic { background: #475569; color: white; }
+        .btn-std { background: #059669; color: white; }
+        .btn-premium { background: #7c3aed; color: white; }
+
+        /* FORMULA BOX */
+        .formula-box { background: #000; font-family: 'JetBrains Mono'; padding: 25px; border-radius: 12px; color: #4ade80; border-left: 5px solid var(--maroon-accent); margin: 25px 0; }
+
+        /* FOOTER & DISCLAIMER */
+        .disclaimer-box { background: rgba(255,191,36,0.05); border: 1px solid var(--gold); padding: 30px; border-radius: 15px; margin-top: 60px; display: flex; gap: 20px; align-items: center; }
+        .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 50px; color: var(--slate); font-size: 0.95rem; }
+        footer { background: #010409; padding: 100px 10%; text-align: center; border-top: 10px solid var(--maroon); }
+    </style>
+</head>
+<body>
+
+    <nav class="side-nav">
+        <a href="#hero" class="dot active" title="Beranda"></a>
+        <a href="#ringkasan" class="dot" title="Ringkasan Eksekutif"></a>
+        <a href="#massa" class="dot" title="Neraca Massa"></a>
+        <a href="#pemilihan" class="dot" title="Pemilihan Mesin"></a>
+        <a href="#dept1" class="dot" title="Penyiapan Bahan"></a>
+        <a href="#dept2" class="dot" title="Reaksi & Konversi"></a>
+        <a href="#dept3" class="dot" title="Absorpsi Akhir"></a>
+        <a href="#utilitas" class="dot" title="Utilitas Pabrik"></a>
+        <a href="#ekonomi" class="dot" title="Analisis Ekonomi"></a>
+        <a href="#keselamatan" class="dot" title="SHE & Safety"></a>
+    </nav>
+
+    <section class="hero" id="hero">
+        <h1>RANCANGAN PABRIK<br><span>AMORA VENTURES</span></h1>
+        <p>KAPASITAS 1,000 METRIK TON ASAM SULFAT PER HARI</p>
+        <div style="margin-top: 40px; border: 1px solid var(--gold); padding: 10px 30px; border-radius: 4px;">PROJECT PHASE 4.0 - FINAL SUBMISSION</div>
+    </section>
+
+    <div class="header-stats">
+        <div class="stat-item">
+            <h4>Target Produksi</h4>
+            <div class="val">1,000 <small>ton/hr</small></div>
+        </div>
+        <div class="stat-item">
+            <h4>Kapasitas Tahunan</h4>
+            <div class="val">330,000 <small>ton/thn</small></div>
+        </div>
+        <div class="stat-item">
+            <h4>Efisiensi Rata-Rata</h4>
+            <div class="val" id="top-eff">95.0%</div>
+        </div>
+        <div class="stat-item">
+            <h4>Biaya Bahan Baku</h4>
+            <div class="val">Rp 5.48 M <small>/hr</small></div>
+        </div>
+    </div>
+
+    <section id="ringkasan">
+        <div class="section-header">
+            <h2>01. RINGKASAN <span>EKSEKUTIF</span></h2>
+            <div></div>
+        </div>
+        <div class="glass-card">
+            <p style="font-size: 1.3rem; line-height: 1.8;">Proyek <b>Amora Ventures</b> mengimplementasikan teknologi <i>Double Contact Double Absorption</i> (DCDA) untuk memproduksi asam sulfat berkadar 98%. Dengan fokus pada efisiensi termal tinggi, pabrik ini mampu menghasilkan uap panas (steam) sebagai produk sampingan untuk pembangkit listrik mandiri.</p>
+            <div class="card-grid" style="margin-top: 40px;">
+                <div style="border-left: 4px solid var(--gold); padding-left: 20px;">
+                    <h3 style="color: var(--gold);">Visi Operasional</h3>
+                    <p>Mencapai emisi SO₂ di bawah 200 ppm guna memenuhi standar lingkungan internasional.</p>
+                </div>
+                <div style="border-left: 4px solid var(--maroon-accent); padding-left: 20px;">
+                    <h3 style="color: var(--maroon-accent);">Target Pasar</h3>
+                    <p>Industri pupuk fosfat, pengolahan logam, dan pemurnian minyak bumi.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="massa">
+        <div class="section-header">
+            <h2>02. NERACA <span>MASSA</span></h2>
+            <div></div>
+        </div>
+        <div class="glass-card">
+            <h3>Aliran Massa Utama (Per Jam)</h3>
+            <table class="modern-table">
+                <thead>
+                    <tr><th>Komponen</th><th>Input (kg/jam)</th><th>Output (kg/jam)</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Sulfur Cair (99.9%)</td><td>7,541.67</td><td>0.00</td><td>Bereaksi Sempurna</td></tr>
+                    <tr><td>Udara Kering (O₂, N₂)</td><td>62,450.00</td><td>55,200.00</td><td>Ekses O₂</td></tr>
+                    <tr><td>Air Proses</td><td>4,120.00</td><td>0.00</td><td>Hidrasi SO₃</td></tr>
+                    <tr style="color: var(--gold); font-weight: bold;"><td>Asam Sulfat (98%)</td><td>0.00</td><td>41,666.67</td><td>Produk Akhir</td></tr>
+                </tbody>
+            </table>
+        </div>
+        
+    </section>
+
+    <section id="pemilihan" class="tier-control">
+        <h2 class="section-title">03. RINGKASAN <span>MESIN & EFISIENSI</span></h2>
+        <p style="margin-bottom: 30px; color: var(--slate);">Pilih konfigurasi mesin untuk menghitung ulang performa pabrik secara real-time:</p>
+        <button class="tier-btn btn-basic" onclick="setTier('basic')">$ Set Semua Basic (Murah)</button>
+        <button class="tier-btn btn-std" onclick="setTier('standard')">⭐ Set Semua Standard (Rekomendasi)</button>
+        <button class="tier-btn btn-premium" onclick="setTier('premium')">👑 Set Semua Premium (Optimal)</button>
+    </section>
+
+    <section id="dept1">
+        <div class="section-header">
+            <h2>04. PENYIAPAN <span>BAHAN BAKU</span></h2>
+            <div></div>
+        </div>
+        <div class="card-grid">
+            <div class="glass-card">
+                <h3>Sulfur Melter (M-101)</h3>
+                <div class="data-row">Mesin: <span id="m-tier" style="font-weight:bold">Standard</span></div>
+                <div class="data-row">Kode: <b>M-101P</b></div>
+                <div class="data-row">Harga: <b id="m-price">Rp 12.00 M</b></div>
+                <div class="data-row">Efisiensi: <b id="m-eff">94%</b></div>
+            </div>
+            <div class="glass-card">
+                <h3>Melting Kinetics</h3>
+                <p>Sulfur padat dilelehkan pada suhu 145°C. Kontrol suhu sangat krusial karena pada >160°C viskositas sulfur akan meningkat drastis (polimerisasi).</p>
+                <div class="formula-box">S(solid) + ΔH → S(liquid)</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="dept2">
+        <div class="section-header">
+            <h2>05. PEMBAKARAN & <span>KONVERSI</span></h2>
+            <div></div>
+        </div>
+        <div class="glass-card" style="margin-bottom: 30px;">
+            <h3>Sulfur Burner & Converter (F-101 & R-201)</h3>
+            <div class="card-grid">
+                <div>
+                    <div class="data-row">Burner Price: <b id="f-price">Rp 26.00 M</b></div>
+                    <div class="data-row">Burner Eff: <b id="f-eff">95%</b></div>
+                </div>
+                <div>
+                    <div class="data-row">Converter Price: <b id="r-price">Rp 48.00 M</b></div>
+                    <div class="data-row">Converter Eff: <b id="r-eff">98%</b></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="formula-box">
+            Reaction: 2SO₂(g) + O₂(g) ⇌ 2SO₃(g)<br>
+            Catalyst: Vanadium Pentoxide (V₂O₅)<br>
+            Operation: 4-Pass Adiabatic Bed
+        </div>
+    </section>
+
+    <section id="dept3">
+        <div class="section-header">
+            <h2>06. ABSORPSI <span>AKHIR</span></h2>
+            <div></div>
+        </div>
+        <div class="glass-card">
+            <h3>Final Absorption Tower (T-301)</h3>
+            <p>Gas SO₃ diserap menggunakan asam sulfat sirkulasi (98%) dalam menara tumpuk (packed tower) untuk mencegah kabut asam.</p>
+            <div class="data-row">Tipe Menara: <b>Packed Bed Tower</b></div>
+            <div class="data-row">Material: <b>Acid Brick Lined Steel</b></div>
+            <div class="data-row">Efisiensi Absorpsi: <b id="t-eff">94%</b></div>
+        </div>
+    </section>
+
+    <section id="utilitas">
+        <div class="section-header">
+            <h2>07. UTILITAS <span>PABRIK</span></h2>
+            <div></div>
+        </div>
+        <div class="card-grid">
+            <div class="glass-card">
+                <h3>Sistem Air Pendingin</h3>
+                <p>Digunakan untuk menjaga suhu absorber dan mendinginkan oli pelumas mesin pompa.</p>
+                <div class="data-row">Kebutuhan: <b>1,200 m³/jam</b></div>
+            </div>
+            <div class="glass-card">
+                <h3>Pembangkit Listrik (WHRU)</h3>
+                <p>Waste Heat Recovery Unit memanfaatkan panas reaksi untuk memutar turbin uap.</p>
+                <div class="data-row">Daya Dihasilkan: <b>1.5 MW</b></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="ekonomi">
+        <div class="section-header">
+            <h2>08. ANALISIS <span>EKONOMI</span></h2>
+            <div></div>
+        </div>
+        <div class="glass-card">
+            <div style="height: 350px; background: white; padding: 20px; border-radius: 10px;">
+                <canvas id="profitChart"></canvas>
+            </div>
+            <div class="card-grid" style="margin-top: 30px;">
+                <div style="text-align: center;">
+                    <h2 style="color: var(--gold); margin: 0;">10.3 Thn</h2>
+                    <p>Payback Period</p>
+                </div>
+                <div style="text-align: center;">
+                    <h2 style="color: var(--gold); margin: 0;">56.1%</h2>
+                    <p>Break Even Point</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="keselamatan">
+        <div class="section-header">
+            <h2>09. SHE & <span>KESELAMATAN</span></h2>
+            <div></div>
+        </div>
+        <div class="glass-card" style="border-left: 10px solid #ef4444;">
+            <h3>Protokol Penanganan Asam</h3>
+            <p>Paparan asam sulfat dapat menyebabkan luka bakar kimiawi derajat 3. Seluruh area pabrik dilengkapi dengan:</p>
+            <ul>
+                <li>Safety Shower & Eye Wash otomatis (jarak 15m).</li>
+                <li>Sensor kebocoran gas SO₂ (Alarm Level 1: 2ppm).</li>
+                <li>Sistem containment (bendungan) untuk tangki penyimpanan.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="final-meta" style="background: rgba(255,255,255,0.02);">
+        <div class="disclaimer-box">
+            <span style="font-size: 3rem;">⚠️</span>
+            <div>
+                <h4 style="margin: 0; color: var(--gold);">DISCLAIMER</h4>
+                <p style="margin: 5px 0 0 0; color: #cbd5e1;">Website ini merupakan <b>simulasi akademis</b> untuk proyek kelas 12. Semua perhitungan merupakan estimasi berdasarkan data industri. Angka aktual dapat bervariasi tergantung lokasi dan negosiasi kontrak. Data diperbarui terakhir: 28 Februari 2026.</p>
+            </div>
+        </div>
+
+        <div class="meta-grid">
+            <div>
+                <p>🎓 <b>Mata Pelajaran:</b> Kimia Industri - Plant Design Project</p>
+                <p>👥 <b>Anggota Tim:</b> Aisha, Keysha, Jovita 12C</p>
+            </div>
+            <div style="text-align: right;">
+                <p>🛠️ <b>Versi:</b> 4.0 Final</p>
+                <p>📅 <b>Tahun Ajaran:</b> 2025/2026</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <h2 style="font-family: 'Montserrat'; font-size: 2.5rem;">AMORA VENTURES</h2>
+        <p>&copy; 2026 Rancangan Pabrik Asam Sulfat 1000 MTPD - Proyek Kelas 12</p>
+        <div style="margin-top: 30px;"><a href="#top" style="color: var(--maroon-accent); text-decoration: none; font-weight: 800;">KEMBALI KE ATAS ↑</a></div>
+    </footer>
+
+    <script>
+        // DATA TIER
+        const tiers = {
+            basic: { m:8, f:18, r:35, t:12, effs:[88, 90, 92, 85] },
+            standard: { m:12, f:26, r:48, t:20, effs:[94, 95, 98, 94] },
+            premium: { m:20, f:35, r:65, t:30, effs:[99, 99, 99.7, 98.5] }
+        };
+
+        function setTier(tier) {
+            const d = tiers[tier];
+            const label = tier.charAt(0).toUpperCase() + tier.slice(1);
+            
+            document.getElementById('m-tier').innerText = label;
+            document.getElementById('m-price').innerText = `Rp ${d.m}.00 M`;
+            document.getElementById('m-eff').innerText = `${d.effs[0]}%`;
+
+            document.getElementById('f-price').innerText = `Rp ${d.f}.00 M`;
+            document.getElementById('f-eff').innerText = `${d.effs[1]}%`;
+
+            document.getElementById('r-price').innerText = `Rp ${d.r}.00 M`;
+            document.getElementById('r-eff').innerText = `${d.effs[2]}%`;
+            
+            document.getElementById('t-eff').innerText = `${d.effs[3]}%`;
+
+            const avg = (d.effs.reduce((a,b) => a+b) / 4).toFixed(1);
+            document.getElementById('top-eff').innerText = `${avg}%`;
+        }
+
+        // SIDE NAV TRACKER
+        window.addEventListener('scroll', () => {
+            let current = "";
+            const sections = document.querySelectorAll("section");
+            sections.forEach(s => {
+                if (pageYOffset >= s.offsetTop - 300) current = s.getAttribute("id");
+            });
+            document.querySelectorAll(".dot").forEach(dot => {
+                dot.classList.remove("active");
+                if (dot.getAttribute("href").includes(current)) dot.classList.add("active");
+            });
+        });
+
+        // CHART
+        new Chart(document.getElementById('profitChart'), {
+            type: 'line',
+            data: {
+                labels: ['Thn 0', 'Thn 2', 'Thn 4', 'Thn 6', 'Thn 8', 'Thn 10'],
+                datasets: [{ label: 'Akumulasi Laba (Miliar IDR)', data: [-1127, -800, -400, 50, 450, 945], borderColor: '#dc2626', backgroundColor: 'rgba(220,38,38,0.1)', fill: true, tension: 0.3 }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+
+        setTier('standard');
+    </script>
+</body>
+</html>
